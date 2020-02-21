@@ -4,20 +4,30 @@ const {validateUserId, validateUser} = require("../middlewares/validate")
 
 const router = express.Router();
 
-router.post('/',validateUser(), (req, res, next) => {
+//creates an user
+router.post('/', validateUser(), (req, res, next) => {
   // do your magic!
  userDb.insert(req.body)
- .then(user =>{
+ .then((user) =>{
+   console.log(user)
    res.status(201).json(user)
  })
-//using next here can shorten our catch statments even more
- .catch(next)
+
+ .catch((error) => {
+   next(error)
+ })
 
 });
 
-router.post('/:id/posts', (req, res) => {
+router.post('/:id/posts', validateUserId(), (req, res) => {
   // do your magic!
+
+
 });
+
+
+
+//-------------------------------------------------------------------------------------------
 // This handles the route /api/hubs
 // We no longer have to define the route prefix,
 // since it's defined when attaching to the main router in `index.js`

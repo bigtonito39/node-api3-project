@@ -7,6 +7,8 @@ const logger = require("./middlewares/logger")
 
 const server = express()
 const port = 5000;
+//Really make sure you use this to enable transfering json files
+server.use(express.json())
 
 server.use(logger("short")) // place "short" if you want to run short version or take value out if you want to run long
 
