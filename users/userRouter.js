@@ -19,9 +19,9 @@ router.post('/', validateUser(), (req, res, next) => {
 
 });
 
-router.post('/:id/posts', validateUserId(), (req, res) => {
+router.post('/:id/posts', validateUserId(), (req, res, next) => {
   // do your magic!
-
+   
 
 });
 
@@ -55,8 +55,17 @@ router.get('/:id', (req, res) => {
   // do your magic!
 });
 
-router.get('/:id/posts', (req, res) => {
+router.get('/:id/posts', validateUserId(), (req, res, next) => {
   // do your magic!
+
+  userDb.getUserPosts(req.params.id)
+   .then((userPost) => {
+     res.status(200).json(userPost)
+   })
+   .catch((error)=> {
+    next(error)
+   })
+   
 });
 
 router.delete('/:id', (req, res) => {
