@@ -51,10 +51,13 @@ router.get('/', (req, res, next) => {
   })
 });
 
-router.get('/:id', (req, res) => {
+//This will ge a specific user based on the id
+router.get('/:id',validateUserId(), (req, res, next) => {
   // do your magic!
+    res.status(200).json(req.user)
 });
 
+//this will get all posts related to an especific user ID.
 router.get('/:id/posts', validateUserId(), (req, res, next) => {
   // do your magic!
 
@@ -68,12 +71,44 @@ router.get('/:id/posts', validateUserId(), (req, res, next) => {
    
 });
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', validateUserId(), (req, res, next) => {
   // do your magic!
+  userDb.remove(req.params.id)
+  .then( response => {
+    if (response > 0){
+      res.status(200).json( {
+        message: "User has been deleted"
+      })
+    }else{
+      res.status(404).json({
+        message: "User to delete not found"
+      })
+    }
+  })
+  .catch(error => {
+    next(error)
+  })
 });
+//this will update an specific user
 
-router.put('/:id', (req, res) => {
+router.put('/:id',validateUserId(),validateUser(),  (req, res, next) => {
   // do your magic!
+
+  userDb.update(req.params.id, req.body)
+  .then( response => {
+    if ( response) {
+      res.status(200).json(req.body)
+    }
+    else{
+      res.status(404).json({
+        message:"the user coulndt be found"
+      })
+    }
+  })
+  .catch(error => {
+    next(error)
+  })
+
 });
 
 

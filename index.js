@@ -16,7 +16,7 @@ server.use(logger("short")) // place "short" if you want to run short version or
 
 server.use("/",welcomeRouter)
 server.use("/api/users",userRouter)
-server.use("/api/users/:id/posts",postRouter )
+server.use("/api/posts",postRouter )
 
 
 
